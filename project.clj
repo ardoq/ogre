@@ -1,14 +1,15 @@
-(defproject clojurewerkz/ogre "3.0.0.0-beta2"
+(defproject ardoq/ogre "3.0.0.0-beta2"
   :description "Clojure dialect of the Gremlin graph processing language"
   :url "https://github.com/clojurewerkz/ogre"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :aot :all
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [potemkin "0.3.3"]
-                 [org.apache.tinkerpop/gremlin-core "3.2.1"]
-                 [org.apache.tinkerpop/gremlin-test "3.2.1"  :scope "test" :exclusions [org.slf4j/slf4j-api]]
-                 [org.apache.tinkerpop/tinkergraph-gremlin "3.2.1"  :scope "test" :exclusions [org.slf4j/slf4j-api]]]
+                 [potemkin "0.4.3"]
+                 [org.apache.tinkerpop/gremlin-core "3.2.3"]
+                 [org.apache.tinkerpop/gremlin-test "3.2.3"  :scope "test"]
+                 [org.apache.tinkerpop/tinkergraph-gremlin "3.2.3" :scope "test"]
+                 [org.slf4j/slf4j-log4j12 "1.7.21" :scope "test"]]
   :source-paths ["src/clojure"]
   :profiles {:dev    { :global-vars {*assert* true}
                        :dependencies [[clojurewerkz/support "1.1.0" :exclusions [org.clojure/clojure]]

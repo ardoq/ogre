@@ -23,7 +23,6 @@
 (defn open-graph
   "Opens a new TinkerGraph with default configuration or open a new Graph instance with the specified
    configuration. The configuration may be a path to a file or a Map of configuration options."
-  ([] (open-graph {(Graph/GRAPH) (.getName org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph)}))
   ([conf]
    (cond
      (map? conf)
@@ -110,6 +109,16 @@
      (if (instance? clojure.lang.IFn v)
         (.withSideEffect g ^String (util/cast-param k) (util/f-to-supplier v) (util/f-to-binaryoperator r))
         (.withSideEffect g ^String (util/cast-param k) v (util/f-to-binaryoperator r))))))
+
+(defn with-remote
+  [^GraphTraversalSource g conn]
+  (cond
+    (instance? org.apache.commons.configuration.Configuration conn)
+    (.withRemote g ^org.apache.commons.configuration.Configuration conn)
+    (instance? String conn)
+    (.withRemote g ^String conn)
+    (instance? org.apache.tinkerpop.gremlin.process.remote.RemoteConnection conn)
+    (.withRemote ^org.apache.tinkerpop.gremlin.process.remote.RemoteConnection conn)))
 
 ; GraphTraversal
 
@@ -331,19 +340,15 @@
 
 (defn has-id
   [^GraphTraversal t & ids]
-  (if (seq? ids)
-    (.hasId t (into-array Object ids))
-    (.hasId t (into-array Object [ids]))))
+  (.hasId t (first ids) (into-array (rest ids))))
 
 (defn has-key
   [^GraphTraversal t & ks]
-  (let [k-array (util/keywords-to-str-array ks)]
-    (.hasKey t k-array)))
+  (.hasKey t (util/cast-param (first ks)) (util/keywords-to-str-array (rest ks))))
 
 (defn has-label
   [^GraphTraversal t & labels]
-  (let [label-array (util/keywords-to-str-array labels)]
-    (.hasLabel t label-array)))
+  (.hasLabel t (util/cast-param (first labels)) (util/keywords-to-str-array (rest labels))))
 
 (defn id
   [^GraphTraversal t]
