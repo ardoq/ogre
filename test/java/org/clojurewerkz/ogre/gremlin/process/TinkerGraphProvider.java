@@ -18,7 +18,7 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraphVariables;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerProperty;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerVertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerVertexProperty;
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.Configuration;
 import org.junit.Ignore;
 
 import java.io.File;
@@ -51,11 +51,11 @@ public class TinkerGraphProvider extends AbstractGraphProvider {
         final String idMaker = (idManager.equals(TinkerGraph.DefaultIdManager.ANY) ? selectIdMakerFromTest(test, testMethodName) : idManager).name();
         return new HashMap<String, Object>() {{
             put(Graph.GRAPH, TinkerGraph.class.getName());
-            put(TinkerGraph.CONFIG_VERTEX_ID, idMaker);
-            put(TinkerGraph.CONFIG_EDGE_ID, idMaker);
-            put(TinkerGraph.CONFIG_VERTEX_PROPERTY_ID, idMaker);
+            put(TinkerGraph.GREMLIN_TINKERGRAPH_VERTEX_ID_MANAGER, idMaker);
+            put(TinkerGraph.GREMLIN_TINKERGRAPH_EDGE_ID_MANAGER, idMaker);
+            put(TinkerGraph.GREMLIN_TINKERGRAPH_VERTEX_PROPERTY_ID_MANAGER, idMaker);
             if (requiresListCardinalityAsDefault(loadGraphWith, test, testMethodName))
-                put(TinkerGraph.CONFIG_DEFAULT_VERTEX_PROPERTY_CARDINALITY, VertexProperty.Cardinality.list.name());
+                put(TinkerGraph.GREMLIN_TINKERGRAPH_DEFAULT_VERTEX_PROPERTY_CARDINALITY, VertexProperty.Cardinality.list.name());
         }};
     }
 
